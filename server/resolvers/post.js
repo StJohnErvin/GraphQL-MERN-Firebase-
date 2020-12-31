@@ -1,10 +1,30 @@
-const {gql} = require("apollo-server-express");
+const { gql } = require('apollo-server-express');
+const { posts } = require('../temp');
 
-const totalPosts =  () => 29;
+// queries
+const totalPosts = () => posts.length;
+const allPosts = () => posts;
 
+// mutation
+const newPost = (parent, args) => {
+    // console.log(args);
+    // create a new post object
+    const post = {
+        id: posts.length + 1,
+        title: args.title,
+        description: args.description
+    };
+    // push new post object to posts array
+    posts.push(post);
+    return post;
+};
 
-module.exports  = {
+module.exports = {
     Query: {
-      totalPosts
+        totalPosts,
+        allPosts
+    },
+    Mutation: {
+        newPost
     }
-  };
+};
